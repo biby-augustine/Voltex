@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <Folder Include="Database\" />
+    <Folder Include="ExcelFile\" />
   </ItemGroup>
 
   <ItemGroup>
