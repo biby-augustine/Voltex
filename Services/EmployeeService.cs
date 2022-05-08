@@ -5,13 +5,13 @@ using NPOI.SS.UserModel;
 
 namespace API.Services
 {
-    public class ExcelService
+    public class EmployeeService
     {
         private readonly IDesignationRepository _designationRepository;
         private readonly ICountyRepository _countyRepository;
         private readonly IEmployeeRepository _employeeRepository;
-        private readonly ILogger<ExcelService> _logger;
-        public ExcelService(ILogger<ExcelService> logger,
+        private readonly ILogger<EmployeeService> _logger;
+        public EmployeeService(ILogger<EmployeeService> logger,
             IDesignationRepository designationRepository,
             ICountyRepository countyRepository,
             IEmployeeRepository employeeRepository)
@@ -110,6 +110,49 @@ namespace API.Services
             {
                 _logger.LogError(new EventId(e.HResult), e, "{Message}", e.Message);
                 return e.Message;
+            }
+        }
+
+        public async Task<object> GetEmployees(int pageRequested, int pageSize, CancellationToken cancellationToken)
+        {
+            try
+            {
+                if (pageRequested <= 0)
+                    throw new ArgumentException("Number of rows requested is not valid.");
+                int start = 0; //offset starting position
+                if (pageRequested > 1)
+                    start = (pageRequested - 1) * pageSize; //to find the starting position
+                int totalCount = await _employeeRepository.GetCount(cancellationToken);
+                if (totalCount <= 0)
+                    throw new Exception("No items found.");
+                int totalPage = (int)Math.Ceiling((double)totalCount / pageSize);
+                if (pageRequested > totalCount)
+                    throw new Exception("Page not found.");
+                IEnumerable<Employee> employees = await _employeeRepository.GetEmployees(start, pageSize, cancellationToken);
+                if (employees != null && employees.Any())
+                {
+                    return new
+                    {
+                        data = employees.Select(f => new
+                        {
+                            id = f.Id,
+                            name = f.Name,
+                            addr1 = f.Address1,
+                            addr2 = f.Address2,
+                            postCode = f.PostCode,
+                            county = f.County.Name,
+                            designation = f.Designation.Name
+                        }),
+                        totalPage
+                    };
+                }
+                else
+                    throw new Exception("No result found.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(new EventId(ex.HResult), ex, "{Message}", ex.Message);
+                return new { data = "", totalPage = 0 };
             }
         }
     }

@@ -7,12 +7,12 @@ namespace API.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        private readonly ExcelService _excelService;
+        private readonly EmployeeService _employeeService;
         public ILogger<EmployeeController> _logger;
-        public EmployeeController(ExcelService excelService,
+        public EmployeeController(EmployeeService employeeService,
             ILogger<EmployeeController> logger)
         {
-            _excelService = excelService;
+            _employeeService = employeeService;
             _logger = logger;
         }
         [HttpPost("savefile")]
@@ -23,7 +23,7 @@ namespace API.Controllers
             try
             {
                 if (Request.Form != null && Request.Form.Files != null && Request.Form.Files[0] != null)
-                    return Ok(new { result = await _excelService.ProcessExcel(Request.Form.Files[0], cancellationToken) });
+                    return Ok(new { result = await _employeeService.ProcessExcel(Request.Form.Files[0], cancellationToken) });
                 else
                     throw new ArgumentNullException("File not found.");
             }
@@ -33,6 +33,12 @@ namespace API.Controllers
                 return BadRequest();
             }
             
+        }
+        [HttpGet("getall")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAll(int page,int pageSize,CancellationToken cancellationToken)
+        {
+            return Ok(await _employeeService.GetEmployees(page, pageSize, cancellationToken));
         }
     }
 }
