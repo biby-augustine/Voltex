@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API.csproj", "{BFDD4D33-1D75-4559-8DCF-427834D6608F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API.csproj", "{BFDD4D33-1D75-4559-8DCF-427834D6608F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.Core", "..\API.Core\API.Core.csproj", "{5E864D7F-54BC-45DF-9839-EEF4D236D4DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API.Core", "..\API.Core\API.Core.csproj", "{5E864D7F-54BC-45DF-9839-EEF4D236D4DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

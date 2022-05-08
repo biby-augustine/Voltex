@@ -14,12 +14,12 @@ namespace API.Infrastructure.Registrations
             {
                 swaggerOptions.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Aldar Agent Interface Api",
+                    Title = "Voltex Interface Api",
                     Version = "v1",
                     Contact = new OpenApiContact
                     {
                         Name = "Biby Augustine",
-                        Url = new Uri("https://www.aldarexchange.com/"),
+                        Url = new Uri("https://www.voltex.com/"),
                     }
                 });
 
